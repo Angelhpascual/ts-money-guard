@@ -8,12 +8,13 @@ export type Result<T, E> =
       error: E
     }
 
-export const ok = <T>(value: T): Result<T, never> => ({
-  ok: true,
-  value,
-})
+export const ok = <T>(value: T): Result<T, never> => ({ ok: true, value })
+export const fail = <E>(error: E): Result<never, E> => ({ ok: false, error })
 
-export const fail = <E>(error: E): Result<never, E> => ({
-  ok: false,
-  error,
-})
+export const isOk = <T, E>(
+  result: Result<T, E>
+): result is { ok: true; value: T } => result.ok
+
+export const isFail = <T, E>(
+  result: Result<T, E>
+): result is { ok: false; error: E } => !result.ok
